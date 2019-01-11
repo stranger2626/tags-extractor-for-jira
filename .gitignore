@@ -1,0 +1,8 @@
+# Webstorm/Idea config files
+.idea
+*.iml
+.vscode/
+node_modules/
+consts/
+tags.txt
+finalJson.json
