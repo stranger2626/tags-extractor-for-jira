@@ -1,7 +1,7 @@
 Parsing tags from Jira
 
 For running this app you need to run script:
-gulp tags:converting --tag "<TestExecutionTag>" --path "<pathToJsonFileWithResults>"
+gulp tags:converting --tag "TestExecutionTag" --path "pathToJsonFileWithResults"
 
 --path parameter is optional
 
