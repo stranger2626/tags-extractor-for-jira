@@ -1,8 +1,18 @@
-Parsing tags from Jira
+# Parsing tags from Jira
 
-For running this app you need to run script:
-gulp tags:converting --tag "TestExecutionTag" --path "pathToJsonFileWithResults"
+# Requirements
+- Node.js 6.10.x or newer
 
---path parameter is optional
-
-Also You need to create folder named "consts" and create there file "common.consts.json" with "userName" and "password"
+## Installation
+```
+ Run 'npm install'
+```
+## First Launch Preparation
+```
+ Run 'npm run store-credentials -- --username <username> --password <password>'
+```
+## Extracting jira tags
+```
+ Run 'npm run convert -- --tag "<jiraTag>" --path <pathToJson>'
+```
+After running the aforementioned command the program will generate a file called tags.txt containing a list of all jira tags for all of the tests in a given test execution. If the --path optione is passed it will also generate a finalJson.json with results suitable for jira XRAY plugin.

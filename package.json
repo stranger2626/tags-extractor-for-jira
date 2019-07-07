@@ -1,19 +1,19 @@
 {
   "name": "jira",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "jira.api.runner.js",
+  "main": "index.js",
   "dependencies": {
-    "gulp": "^3.9.1",
+    "axios": "^0.19.0",
+    "fs-extra": "^8.1.0",
     "lodash": "^4.17.11",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
     "yargs": "^12.0.5"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node jira.api.runner"
+    "convert": "node index.js extract",
+    "store-credentials": "node index.js storeCredentials"
   },
-  "author": "",
+  "author": "Matsvei Murashka",
   "license": "ISC"
 }

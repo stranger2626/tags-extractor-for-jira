@@ -1,25 +1,35 @@
-const fs=require('fs');
-const request = require('request-promise-native');
+const fs = require('fs');
+const request = require('axios');
 const lodash = require('lodash');
+const credentialsHelper = require('./credentialsHelper');
 const defaultTxtFilePath = './tags.txt';
 const defaultJsonFilePath = './finalJson.json';
-const creds = require('./consts/common.consts.json');
+const credsPath = './consts/common.consts.json';
+
+function checkIfCredentialsExist() {
+    if (fs.existsSync(credsPath)) {
+        return true;
+    } else {
+        throw new Error('No Credentials File! run [npm run store-credentials -- --username <username> --password <password>]');
+    }
+};
 
 function getAuthSession() {
+    checkIfCredentialsExist();
     let loginRequestOptions = {
         method: `POST`,
-        uri: `https://jira.wolterskluwer.io/jira/rest/auth/1/session`,
-        body: {
-            username: creds.userName,
-            password: creds.password
+        url: `https://jira.wolterskluwer.io/jira/rest/auth/1/session`,
+        data: {
+            username: credentialsHelper.getDecodedParameter('userName'),
+            password: credentialsHelper.getDecodedParameter('password')
         },
         headers: {
             "Content-Type": "application/json"
         },
         json: true
     };
-    return request(loginRequestOptions).then((body) => {
-        return body.session;
+    return request(loginRequestOptions).then((data) => {
+        return data.data.session;
     })
     .catch((err) => {
         return console.error(`Login failed: ${err}`);
@@ -29,7 +39,7 @@ function getAuthSession() {
 function getNumberOfTestPages(authSession, tag) {
     let reqestOptions = {
         method: `GET`,
-        uri: `https://jira.wolterskluwer.io/jira/rest/api/2/issue/${tag}`,
+        url: `https://jira.wolterskluwer.io/jira/rest/api/2/issue/${tag}`,
         headers: {
             "Content-Type": "application/json",
             cookie: `${authSession.name}=${authSession.value}`
@@ -37,7 +47,7 @@ function getNumberOfTestPages(authSession, tag) {
         json: true
     }
     return request(reqestOptions).then((response) => {
-        return Math.ceil(Number(response.fields.customfield_12303.length)/200);
+        return Math.ceil(Number(response.data.fields.customfield_12303.length)/200);
     })
         .catch((err) => {
             return console.error(`Error fetching number of tags pages from jira: ${err}`);
@@ -47,7 +57,7 @@ function getNumberOfTestPages(authSession, tag) {
 function getTestsFromJira(authSession, tag, pageIndex = 1) {
     let reqestOptions = {
         method: `GET`,
-        uri: `https://jira.wolterskluwer.io/jira/rest/raven/1.0/api/testexec/${tag}/test?limit=200&page=${pageIndex}`,
+        url: `https://jira.wolterskluwer.io/jira/rest/raven/1.0/api/testexec/${tag}/test?limit=200&page=${pageIndex}`,
         headers: {
             "Content-Type": "application/json",
             cookie: `${authSession.name}=${authSession.value}`
@@ -55,7 +65,7 @@ function getTestsFromJira(authSession, tag, pageIndex = 1) {
         json: true
     }
     return request(reqestOptions).then((response) => {
-        return response;
+        return response.data;
     })
     .catch((err) => {
         return console.error(`Error fetching tests data from jira: ${err}`);
