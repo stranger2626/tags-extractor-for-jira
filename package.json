@@ -1,7 +1,7 @@
 {
-  "name": "jira",
+  "name": "tags-extractor-for-jira",
   "version": "1.0.1",
-  "description": "",
+  "description": "A simple jira tags extractor",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.19.0",
@@ -15,5 +15,13 @@
     "store-credentials": "node index.js storeCredentials"
   },
   "author": "Matsvei Murashka",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stranger2626/tags-extractor-for-jira.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stranger2626/tags-extractor-for-jira/issues"
+  },
+  "homepage": "https://github.com/stranger2626/tags-extractor-for-jira#readme"
 }
