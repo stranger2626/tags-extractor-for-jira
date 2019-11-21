@@ -1,7 +1,7 @@
 # Parsing tags from Jira
 
 # Requirements
-- Node.js 6.10.x or newer
+- Node.js 10.9.x or newer
 
 ## Installation
 ```
